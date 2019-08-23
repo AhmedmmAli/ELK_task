@@ -33,4 +33,31 @@ services:
     networks:
       - logging-net
     depends_on:
-      - elasticsearch    
+      - elasticsearch   
+
+
+  nginx:
+    # image: nginx
+    container_name: "nginx"
+    build: ./images/nginx
+    ports:
+      - "80:80"
+    networks:
+      - logging-net
+    deploy:
+      replicas: 1  
+    volumes:
+      - ./web-files:/usr/share/nginx/html
+    logging:
+      driver: fluentd  
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
+    depends_on:  
+      - "fluentd" 
+
+networks:
+  logging-net:
+
+volumes:
+ elasticsearch-vol: 
