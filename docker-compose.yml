@@ -26,3 +26,11 @@ services:
     volumes:
       - ./fluentd/etc:/fluentd/etc      
 
+  kibana:
+    image: 'docker.elastic.co/kibana/kibana:6.5.1'
+    ports:
+      - "5601:5601"
+    networks:
+      - logging-net
+    depends_on:
+      - elasticsearch    
